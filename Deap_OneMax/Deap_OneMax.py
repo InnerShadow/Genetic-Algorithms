@@ -1,5 +1,6 @@
 import random
 import matplotlib.pyplot as plt
+import time
 
 import numpy as np
 
@@ -7,13 +8,11 @@ from deap import base, algorithms
 from deap import creator
 from deap import tools
 
-
-
 ONE_MAX_LENGTH = 100   
 
-POPULATION_SIZE = 300   
-P_CROSSOVER = 0.8       
-P_MUTATION = 0.2        
+POPULATION_SIZE = 200   
+P_CROSSOVER = 0.7       
+P_MUTATION = 0.3        
 MAX_GENERATIONS = 50    
 
 def oneMaxFitness(individual):
@@ -46,11 +45,29 @@ def __main__():
     stats = tools.Statistics(lambda ind : ind.fitness.values)
     stats.register("max", np.max)
     stats.register("avg", np.mean)
+    stats.register("values", np.array)
 
     population, logbook = algorithms.eaSimple(population, toolbox, cxpb = P_CROSSOVER, mutpb = P_MUTATION, 
         ngen = MAX_GENERATIONS, stats = stats, verbose = True)
 
-    maxFitnessValues, meanFitnessValues = logbook.select("max", "avg") 
+    maxFitnessValues, meanFitnessValues, vals = logbook.select("max", "avg", "values")
+
+    plt.ion()
+    fig, ax = plt.subplots()
+
+    line, = ax.plot(vals[0], ' o', markersize = 1)
+    ax.set_ylim(40, 110)
+
+    for i in vals:
+        line.set_ydata(i)
+
+        plt.draw()
+        plt.gcf().canvas.flush_events()
+
+        time.sleep(0.5)
+
+    plt.ioff()
+    plt.show()
 
     plt.plot(maxFitnessValues, color='red')
     plt.plot(meanFitnessValues, color='green')
