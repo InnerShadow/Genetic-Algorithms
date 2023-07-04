@@ -1,14 +1,31 @@
 from matplotlib.lines import Line2D
+from random import randrange
+import traceback
+import logging 
 
-vertex = ((0, 1), (1, 1), (0.5, 0.8), (0.1, 0.5), (0.8, 0.2), (0.4, 0))
 
 xOffset = 0.0105
 yOffset = 0.0205
 
-vx = [v[0] for v in vertex]
-vy = [v[1] for v in vertex]
+posible_spots = (0, 1, 0.2, 0.4, 0.6, 0.8)
 
 def show_graph(ax, best, start, Matrix, inf):
+
+    if len(Matrix) == 6 :
+        vertex = ((0, 1), (1, 1), (0.5, 0.8), (0.1, 0.5), (0.8, 0.2), (0.4, 0))
+    else: 
+        vertex = [[0 for x in range(2)] for y in range(len(Matrix))]
+        for i in range(len(vertex)):
+            x, y = randrange(len(posible_spots)), randrange(len(posible_spots))
+            try:
+                index = vertex.index((posible_spots[x], posible_spots[y]))
+                i -= 1
+                continue
+            except Exception as e:
+                vertex[i] = (posible_spots[x], posible_spots[y])
+
+    vx = [v[0] for v in vertex]
+    vy = [v[1] for v in vertex]
 
     for i in range(len(Matrix)) :
         for j in range(len(Matrix[i])) :
