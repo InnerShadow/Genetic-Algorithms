@@ -8,6 +8,8 @@ from deap import base, algorithms
 from deap import creator
 from deap import tools
 
+from Graphs_show import show_graph
+
 POPULATION_SIZE = 1000
 P_CROSSOVER = 0.7
 P_MUTATION = 0.3
@@ -16,14 +18,14 @@ HALL_OF_FAME_SIZE = 1
 
 inf = 100
 
-Matrix = ((0, 3, 1, 3, inf, inf),
-		(3, 0, 4, inf, inf, inf),
-		(1, 4, 0, inf, 7, 5),
-		(3, inf, inf, 0, inf, 2),
-		(inf, inf, 7, inf, 0, 4),
-		(inf, inf, 5, 2, 4, 0))
+Matrix = ((0,	 3, 	1, 		3, 		inf, 	inf),
+		  (3,	 0, 	4, 		inf, 	inf, 	inf),
+		  (1,	 4, 	0, 		inf, 	7, 		4),
+		  (3,	 inf, 	inf,	0, 		inf, 	2),
+		  (inf,	 inf, 	7, 		inf, 	0, 		4),
+		  (inf,	 inf, 	4, 		2, 		4, 		0))
 
-start = 0
+start = 2
 
 LENGHT_MATRIX = len(Matrix)
 LENGHT_CHROM = len(Matrix) * len(Matrix[0])
@@ -95,7 +97,9 @@ def __main__():
 
 	plt.show()
 
-
+	fig, ax = plt.subplots()
+	show_graph(ax, best, start, Matrix, inf)
+	plt.show()
 
 
 if(__name__ == '__main__'):
