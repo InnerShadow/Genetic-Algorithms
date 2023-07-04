@@ -3,7 +3,6 @@ from random import randrange
 import traceback
 import logging 
 
-
 xOffset = 0.0105
 yOffset = 0.0205
 
@@ -45,5 +44,10 @@ def show_graph(ax, best, start, Matrix, inf):
             prev = j
 
     ax.plot(vx, vy, ' ob', markersize = 15)
+
     for i in range(len(vertex)):
-        ax.text(vertex[i][0] - xOffset, vertex[i][1] - 0.0205, str(i), fontsize = 15)
+        if i != start:
+            ax.text(vertex[i][0] - xOffset, vertex[i][1] - yOffset, str(i), fontsize = 15)
+        else: 
+            ax.text(vertex[i][0] - xOffset, vertex[i][1] - yOffset, str(i), fontsize = 15, color = 'r')
+

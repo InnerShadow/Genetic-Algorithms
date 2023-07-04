@@ -11,8 +11,8 @@ from deap import tools
 from Graphs_show import show_graph
 
 POPULATION_SIZE = 1000
-P_CROSSOVER = 0.7
-P_MUTATION = 0.3
+P_CROSSOVER = 0.9
+P_MUTATION = 0.1
 MAX_GENERATIONS = 50
 HALL_OF_FAME_SIZE = 1
 
@@ -25,7 +25,7 @@ Matrix = ((0,	 3, 	1, 		3, 		inf, 	inf),
 		  (inf,	 inf, 	7, 		inf, 	0, 		4),
 		  (inf,	 inf, 	4, 		2, 		4, 		0))
 
-start = 2
+start = 5
 
 LENGHT_MATRIX = len(Matrix)
 LENGHT_CHROM = len(Matrix) * len(Matrix[0])
