@@ -9,8 +9,9 @@ from deap import creator
 from deap import tools
 
 from Graphs_show import show_graph
+from Get_Elitizme import eaSimpleElitizme
 
-POPULATION_SIZE = 1000
+POPULATION_SIZE = 2000
 P_CROSSOVER = 0.9
 P_MUTATION = 0.1
 MAX_GENERATIONS = 50
@@ -20,15 +21,24 @@ inf = 100
 
 Matrix = ((0,	 3, 	1, 		3, 		inf, 	inf),
 		  (3,	 0, 	4, 		inf, 	inf, 	inf),
-		  (1,	 4, 	0, 		inf, 	7, 		4),
+		  (1,	 4, 	0, 		inf, 	7, 		5),
 		  (3,	 inf, 	inf,	0, 		inf, 	2),
 		  (inf,	 inf, 	7, 		inf, 	0, 		4),
-		  (inf,	 inf, 	4, 		2, 		4, 		0))
+		  (inf,	 inf, 	5, 		2, 		4, 		0))
 
 start = 5
 
 LENGHT_MATRIX = len(Matrix)
 LENGHT_CHROM = len(Matrix) * len(Matrix[0])
+
+def show(ax, hof):
+	#time.sleep(0.5)
+	ax.clear()
+	show_graph(ax, hof.items[0], start, Matrix, inf)
+
+	plt.draw()
+	plt.gcf().canvas.flush_events()
+
 
 
 def GetFitness(individual):
@@ -81,14 +91,20 @@ def __main__():
 
 	population = toolbox.populationCreator(n = POPULATION_SIZE)
 
-	population, logbook = algorithms.eaSimple(population, toolbox, cxpb = P_CROSSOVER / LENGHT_MATRIX,
+	plt.ion()
+	fig, ax = plt.subplots()
+
+	population, logbook = eaSimpleElitizme(population, toolbox, cxpb = P_CROSSOVER / LENGHT_MATRIX,
 		mutpb = P_MUTATION / LENGHT_MATRIX, ngen = MAX_GENERATIONS, stats = stats, halloffame = hof,
-		verbose = True)
+		callback = (show, (ax, hof)), verbose = True)
 
 	maxFitnessValues, meanFutnessValues = logbook.select("min", "avg")
 
 	best = hof.items[0]
 	print("\n", best, "\n")
+
+	plt.ioff()
+	plt.show()
 
 	plt.plot(maxFitnessValues, color = 'red')
 	plt.plot(meanFutnessValues, color = 'green')
@@ -97,9 +113,9 @@ def __main__():
 
 	plt.show()
 
-	fig, ax = plt.subplots()
-	show_graph(ax, best, start, Matrix, inf)
-	plt.show()
+	# fig, ax = plt.subplots()
+	# show_graph(ax, best, start, Matrix, inf)
+	# plt.show()
 
 
 if(__name__ == '__main__'):
