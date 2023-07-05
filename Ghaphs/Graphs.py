@@ -32,7 +32,7 @@ LENGHT_MATRIX = len(Matrix)
 LENGHT_CHROM = len(Matrix) * len(Matrix[0])
 
 def show(ax, hof):
-	#time.sleep(0.5)
+	time.sleep(1)
 	ax.clear()
 	show_graph(ax, hof.items[0], start, Matrix, inf)
 
