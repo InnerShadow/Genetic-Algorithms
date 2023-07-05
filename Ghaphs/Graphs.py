@@ -18,12 +18,12 @@ HALL_OF_FAME_SIZE = 1
 
 inf = 100
 
-Matrix = ((0,	 3, 	1, 		3, 		inf, 	inf),
-		  (3,	 0, 	4, 		inf, 	inf, 	inf),
-		  (1,	 4, 	0, 		inf, 	7, 		4),
-		  (3,	 inf, 	inf,	0, 		inf, 	2),
-		  (inf,	 inf, 	7, 		inf, 	0, 		4),
-		  (inf,	 inf, 	4, 		2, 		4, 		0))
+Matrix = 	((0,	 3, 	1, 	3, 	inf, 	inf),
+		(3,	 0, 	4, 	inf, 	inf, 	inf),
+		(1,	 4, 	0, 	inf, 	7, 	4),
+		(3,	 inf, 	inf,	0, 	inf, 	2),
+		(inf,	 inf, 	7, 	inf, 	0, 	4),
+		(inf,	 inf, 	4, 	2, 	4, 	0))
 
 start = 5
 
