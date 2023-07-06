@@ -31,24 +31,24 @@ def show_ships(ax, best, field_size):
 
     ax.add_patch(rect)
 
-    P0 = np.zeros((field_size, field_size))
-    P = np.ones((field_size + 6, field_size + 6)) * inf
-    P[1:field_size + 1, 1:field_size + 1] = P0
+    # P0 = np.zeros((field_size, field_size))
+    # P = np.ones((field_size + 6, field_size + 6)) * inf
+    # P[1:field_size + 1, 1:field_size + 1] = P0
 
-    th = 1
-    h = np.ones((3, 6)) * th
-    ship_one = np.ones((1, 4)) * 10
-    v = np.ones((6, 3)) * th
+    # th = 1
+    # h = np.ones((3, 6)) * th
+    # ship_one = np.ones((1, 4)) * 10
+    # v = np.ones((6, 3)) * th
 
-    for *ship, t in zip(*[iter(best)] * 3, type_ship):
-        if ship[-1] == 0:
-            sh = np.copy(h[:, :t + 2])
-            sh[1, 1:t + 1] = ship_one[0, :t]
-            P[ship[0] - 1:ship[0] + 2, ship[1] - 1:ship[1] + t + 1] += sh
-        else:
-            sh = np.copy(v[:t + 2, :])
-            sh[1:t + 1, 1] = ship_one[0, :t]
-            P[ship[0] - 1:ship[0] + t + 1, ship[1] - 1:ship[1] + 2] += sh
+    # for *ship, t in zip(*[iter(best)] * 3, type_ship):
+    #     if ship[-1] == 0:
+    #         sh = np.copy(h[:, :t + 2])
+    #         sh[1, 1:t + 1] = ship_one[0, :t]
+    #         P[ship[0] - 1:ship[0] + 2, ship[1] - 1:ship[1] + t + 1] += sh
+    #     else:
+    #         sh = np.copy(v[:t + 2, :])
+    #         sh[1:t + 1, 1] = ship_one[0, :t]
+    #         P[ship[0] - 1:ship[0] + t + 1, ship[1] - 1:ship[1] + 2] += sh
 
 
     # for i in range(len(P)):
