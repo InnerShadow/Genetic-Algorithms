@@ -10,6 +10,10 @@ colors=['g', 'b', 'm', 'y']
 def show_ships(ax, best, field_size):
     rect = Rectangle((0, 0), field_size + 1, field_size + 1, fill = None, edgecolor = 'r')
 
+    for i in range(field_size + 1):
+        ax.add_line(Line2D((i + 0.5, i + 0.5), (0 + 0.5, field_size+ 0.5), color = '#aaa'))
+        ax.add_line(Line2D((0 + 0.5, field_size + 0.5), (i + 0.5, i + 0.5), color = '#aaa'))
+
     t_n = 0
     for i in range(0, len(best), 3):
         x = best[i]
