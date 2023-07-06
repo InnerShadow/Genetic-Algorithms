@@ -15,16 +15,20 @@ FIELD_SIZE = 10
 SHIPS = 10
 LENGHT_CHROM = 3 * SHIPS
 
-POPULATION_SIZE = 50
+POPULATION_SIZE = 500
 P_CROSSOVER = 0.9
-P_MUTATION = 0.2
+P_MUTATION = 0.3
 MAX_GENERATIONS = 50
 HALL_OF_FAME_SIZE = 1
 
-inf = 1000
+inf = 100
+imposition_penalpy = 200
+cross_boarder_penalty = 50
+boarder_fine = 1
+ship_fine = 10
 
 def show(ax, hof):
-	time.sleep(1)
+	time.sleep(0.5)
 	ax.clear()
 	show_ships(ax, hof.items[0], FIELD_SIZE)
 
@@ -47,10 +51,9 @@ def shipsFitness(individual):
 	P = np.ones((FIELD_SIZE + 6, FIELD_SIZE + 6)) * inf
 	P[1:FIELD_SIZE + 1, 1:FIELD_SIZE + 1] = P0
 
-	th = 0.2
-	h = np.ones((3, 6)) * th
-	ship_one = np.ones((1, 4))
-	v = np.ones((6, 3)) * th
+	h = np.ones((3, 6)) * boarder_fine
+	ship_one = np.ones((1, 4)) * ship_fine
+	v = np.ones((6, 3)) * boarder_fine
 
 	for *ship, t in zip(*[iter(individual)] * 3, type_ship):
 		if ship[-1] == 0:
@@ -62,9 +65,28 @@ def shipsFitness(individual):
 			sh[1:t + 1, 1] = ship_one[0, :t]
 			P[ship[0] - 1:ship[0] + t + 1, ship[1] - 1:ship[1] + 2] += sh
 
+	for i in range(len(P)):
+		for j in range(len(P[i])):
+			if P[i][j] > 0 and P[i][j] < ship_fine:
+				P[i][j] = boarder_fine
+			if P[i][j] >= 2 * ship_fine and i != 0 and j != 0 and i <= 10 and j <= 10:
+				P[i][j] += imposition_penalpy
+			if P[i][j] % ship_fine != 0 and P[i][j] >= ship_fine and i != 0 and j != 0 and i <= 10 and j <= 10:
+				P[i][j] += cross_boarder_penalty
+			if (i == 0 or j == 0 or i > 10 or j > 10) and (P[i][j] < inf + ship_fine):
+				P[i][j] = inf
 
-	s = np.sum(P[np.bitwise_and(P > 1, P < inf)])
-	s += np.sum(P[P > inf + th * 4])
+
+	s = 0
+	for i in range(len(P)):
+		for j in range(len(P[i])):
+			if i != 0 and j != 0 and i <= 10 and j <= 10:
+				s += P[i][j]
+			else:
+				if P[i][j] >= inf + ship_fine:
+					s += P[i][j] 
+					
+
 
 	return s,
 
