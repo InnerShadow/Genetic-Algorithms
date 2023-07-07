@@ -28,7 +28,7 @@ boarder_fine = 1
 ship_fine = 10
 
 def show(ax, hof):
-	time.sleep(0.5)
+	#time.sleep(0.5)
 	ax.clear()
 	show_ships(ax, hof.items[0], FIELD_SIZE)
 
