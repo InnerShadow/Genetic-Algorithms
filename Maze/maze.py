@@ -9,28 +9,28 @@ from deap import creator
 from deap import tools
 
 from Get_Elitizme import eaSimpleElitizme
-from Show_path import show_path
-from Get_Field import Get_clear_field
+from Show_path import show_path	
+from Get_Field import Get_clear_field, Get_one_onbtacle_field, Get_random_field
 
-FIELD_SIZE = 50
+FIELD_SIZE = 100
 
 LENGHT_CHROM = 5 * FIELD_SIZE
-POPULATION_SIZE = 2000
+POPULATION_SIZE = 100 * FIELD_SIZE
 P_CROSSOVER = 0.9
-P_MUTATION = 0.7
-MAX_GENERATIONS = 100
-HALL_OF_FAME_SIZE = 5
+P_MUTATION = 0.5
+MAX_GENERATIONS = 2 * FIELD_SIZE + 25
+HALL_OF_FAME_SIZE = int(0.05 * LENGHT_CHROM)
 
-start = (3, 11)
-finish = (45, 40)
+start = (random.randint(1, FIELD_SIZE - 2), random.randint(1, FIELD_SIZE - 2))
+finish = (random.randint(1, FIELD_SIZE - 2), random.randint(1, FIELD_SIZE - 2))
 
-inf = 1000
+inf = 20
 
 # field:
 	# 0 - avaliable cell
 	# 1 - barrier
 
-field = Get_clear_field(FIELD_SIZE)
+field = Get_random_field(FIELD_SIZE, start, finish)
 
 #path:
 	# 0 - stay
@@ -110,7 +110,7 @@ def pathFitness(individual):
 		it += 1
 
 	if it == LENGHT_CHROM:
-		fitness += abs(currntX - finish[1]) ** 2 + abs(currntY - finish[0]) ** 2
+		fitness += np.sqrt(abs(currntX - finish[1]) ** 2 + abs(currntY - finish[0]) ** 2)
 
 	return fitness, 
 
@@ -137,7 +137,7 @@ def __main__():
 
 	plt.ion()
 	fig, ax = plt.subplots()
-	fig.set_size_inches(6, 6)
+	fig.set_size_inches(FIELD_SIZE, FIELD_SIZE)
 
 	ax.set_xlim(-2, FIELD_SIZE + 3)
 	ax.set_ylim(-2, FIELD_SIZE + 3)

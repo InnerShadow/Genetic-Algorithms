@@ -16,7 +16,7 @@ def show_path(ax, best, field, start, finish):
 
     for i in range(len(field)):
         for j in range(len(field)):
-            if field[i][j] == 1:
+            if field[j][i] == 1:
                 ax.add_patch(Rectangle((i, j), 1, 1, facecolor = 'black'))
 
 
