@@ -4,6 +4,9 @@ import numpy as np
 
 def show_path(ax, best, field, start, finish):
 
+    ax.set_xlim(-2, len(field) + 3)
+    ax.set_ylim(-2, len(field) + 3)
+
     ax.add_patch(Rectangle(start, 1, 1, facecolor = 'green'))
     ax.add_patch(Rectangle(finish, 1, 1, facecolor = 'red'))
 
@@ -32,6 +35,8 @@ def show_path(ax, best, field, start, finish):
         if i == 4:
             ax.add_line(Line2D((currntY, currntY), (currntX, currntX - 1), color = 'r'))
             currntX -= 1
+        if currntX == finish[1] + 0.5 and currntY == finish[0] + 0.5:
+            break
 
 
 

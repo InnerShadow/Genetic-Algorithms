@@ -1,7 +1,7 @@
 
 import numpy as np
 
-def Get_test_field(field_size):
+def Get_clear_field(field_size):
 
 	matrix = np.zeros((field_size, field_size))
 
