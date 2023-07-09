@@ -12,7 +12,7 @@ from Get_Elitizme import eaSimpleElitizme
 from Show_path import show_path	
 from Get_Field import Get_clear_field, Get_one_onbtacle_field, Get_random_field
 
-FIELD_SIZE = 100
+FIELD_SIZE = 30
 
 LENGHT_CHROM = 5 * FIELD_SIZE
 POPULATION_SIZE = 100 * FIELD_SIZE
@@ -24,7 +24,7 @@ HALL_OF_FAME_SIZE = int(0.05 * LENGHT_CHROM)
 start = (random.randint(1, FIELD_SIZE - 2), random.randint(1, FIELD_SIZE - 2))
 finish = (random.randint(1, FIELD_SIZE - 2), random.randint(1, FIELD_SIZE - 2))
 
-inf = 20
+inf = int(0.2 * FIELD_SIZE)
 
 # field:
 	# 0 - avaliable cell
@@ -58,7 +58,9 @@ def MutPath(individual, indpb):
 def show(ax, hof):
 	#time.sleep(0.5)
 	ax.clear()
-	show_path(ax, hof.items[0], field, start, finish)
+	#show_path(ax, hof.items[2], field, start, finish, 'blue')
+	show_path(ax, hof.items[len(hof) - 1], field, start, finish, 'green')
+	show_path(ax, hof.items[0], field, start, finish, 'red')
 
 	plt.draw()
 	plt.gcf().canvas.flush_events()
