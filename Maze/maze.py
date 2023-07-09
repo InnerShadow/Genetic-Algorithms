@@ -12,7 +12,7 @@ from Get_Elitizme import eaSimpleElitizme
 from Show_path import show_path	
 from Get_Field import Get_clear_field, Get_one_onbtacle_field, Get_random_field
 
-FIELD_SIZE = 30
+FIELD_SIZE = 50
 
 LENGHT_CHROM = 5 * FIELD_SIZE
 POPULATION_SIZE = 100 * FIELD_SIZE
@@ -131,7 +131,7 @@ def __main__():
 	toolbox.register("evaluate", pathFitness)
 	toolbox.register("select", tools.selTournament, tournsize = 3)
 	toolbox.register("mate", tools.cxTwoPoint)
-	toolbox.register("mutate", MutPath, indpb = 1.0 / LENGHT_CHROM)
+	toolbox.register("mutate", tools.mutShuffleIndexes, indpb = 1.0 / LENGHT_CHROM)
 
 	stats = tools.Statistics(lambda ind : ind.fitness.values)
 	stats.register("min", np.min)
