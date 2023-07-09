@@ -14,11 +14,11 @@ from Get_Field import Get_clear_field, Get_one_onbtacle_field, Get_random_field
 
 FIELD_SIZE = 50
 
-LENGHT_CHROM = 5 * FIELD_SIZE
+LENGHT_CHROM = int(2 * FIELD_SIZE)
 POPULATION_SIZE = 100 * FIELD_SIZE
 P_CROSSOVER = 0.9
 P_MUTATION = 0.5
-MAX_GENERATIONS = 2 * FIELD_SIZE + 25
+MAX_GENERATIONS = 3 * FIELD_SIZE + 25
 HALL_OF_FAME_SIZE = int(0.05 * LENGHT_CHROM)
 
 start = (random.randint(1, FIELD_SIZE - 2), random.randint(1, FIELD_SIZE - 2))
