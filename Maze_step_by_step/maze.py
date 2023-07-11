@@ -14,9 +14,9 @@ from Get_Field import Get_clear_field, Get_one_onbtacle_field, Get_random_field
 
 random.seed(69)
 
-FIELD_SIZE = 50
+FIELD_SIZE = 60
 
-LENGHT_CHROM = int(2 * FIELD_SIZE)
+LENGHT_CHROM = int(2.5 * FIELD_SIZE)
 POPULATION_SIZE = 100 * FIELD_SIZE
 P_CROSSOVER = 0.9
 P_MUTATION = 0.5
