@@ -12,7 +12,7 @@ from Get_Elitizme import eaSimpleElitizme
 from Show_path import show_path	
 from Get_Field import Get_clear_field, Get_one_onbtacle_field, Get_random_field
 
-FIELD_SIZE = 50
+FIELD_SIZE = 40
 
 LENGHT_CHROM = int(2 * FIELD_SIZE)
 POPULATION_SIZE = 100 * FIELD_SIZE

@@ -25,7 +25,7 @@ class Individual(list):
 
 FIELD_SIZE = 50
 
-#TODO : MAKE int(2.5 * FIELDSIZE) and step by step solution and cxTwoPoint
+#TODO : MAKE int(2.5 * FIELDSIZE) and step by step solution 
 
 LENGHT_CHROM = 5 * FIELD_SIZE
 POPULATION_SIZE = 100 * FIELD_SIZE
@@ -140,6 +140,14 @@ def cxOnePoint(child1, child2):
     s = random.randint(2, len(child1) - 3)
     child1[s:], child2[s:] = child2[s:], child1[s:]
 
+def cxTwoPoint(child1, child2):
+	s1 = random.randint(2, len(child1) - 3)
+	s2 = random.randint(2, len(child1) - 3)
+	if s1 > s2:
+		s1, s2 = s2, s1
+
+	child1[s1:s2], child2[s1:s2] = child2[s1:s2], child1[s1:s2]
+
 
 def MutPath(individual, indpb):
 	for i in range(len(individual)):
@@ -205,7 +213,7 @@ def __main__():
 
 		for child1, child2 in zip(offspring[::2], offspring[1::2]):
 			if random.random() < P_CROSSOVER:
-				cxOnePoint(child1, child2)
+				cxTwoPoint(child1, child2)
 
 		for mutant in offspring:
 			if random.random() < P_MUTATION:
