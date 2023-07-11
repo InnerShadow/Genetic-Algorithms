@@ -53,7 +53,7 @@ def Get_random_field(field_size, start, finish):
 
 	for i in range(field_size):
 		for j in range(field_size):
-			if random.random() < 0.1 and j != start[1] and j != finish[1] and i != start[0] and i != finish[0]:
+			if random.random() < 0.05 and j != start[1] and j != finish[1] and i != start[0] and i != finish[0]:
 				matrix[j][i] = 1
 
 	return matrix
