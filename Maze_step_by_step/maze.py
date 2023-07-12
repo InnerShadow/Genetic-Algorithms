@@ -11,6 +11,8 @@ from deap import tools
 from Show_path import show_path	
 from Get_Field import Get_clear_field, Get_one_onbtacle_field, Get_random_field
 
+random.seed(69)
+
 
 class FitnessMax():
     def __init__(self):
@@ -25,13 +27,14 @@ class Individual(list):
 
 FIELD_SIZE = 50
 
-#TODO : MAKE int(2.5 * FIELDSIZE) and step by step solution 
+len_steps = [0.1, 0.2, 0.3, 0.4]
+generations_steps = [0.1, 0.2, 0.4, 0.6]
 
-LENGHT_CHROM = 5 * FIELD_SIZE
+LENGHT_CHROM = int(2.5 * FIELD_SIZE)
 POPULATION_SIZE = 100 * FIELD_SIZE
 P_CROSSOVER = 0.9
 P_MUTATION = 0.5
-MAX_GENERATIONS = 2 * FIELD_SIZE + 25
+MAX_GENERATIONS = 3 * FIELD_SIZE + 25
 HALL_OF_FAME_SIZE = int(0.05 * LENGHT_CHROM)
 
 start = (random.randint(1, FIELD_SIZE - 2), random.randint(1, FIELD_SIZE - 2))
@@ -55,7 +58,15 @@ field = Get_random_field(FIELD_SIZE, start, finish)
 
 def randomPath():
 	path = []
-	for n in range(LENGHT_CHROM):
+	for n in range(int(LENGHT_CHROM * len_steps[0])):
+		path.extend([random.randint(1, 4)])
+
+	return Individual(path)
+
+
+def AdditionrandomPath(lenght):
+	path = []
+	for n in range(lenght):
 		path.extend([random.randint(1, 4)])
 
 	return Individual(path)
@@ -106,7 +117,7 @@ def pathFitness(individual):
 			break
 		it += 1
 
-	if it == LENGHT_CHROM:
+	if it == len(individual):
 		fitness += np.sqrt(abs(currntX - finish[1]) ** 2 + abs(currntY - finish[0]) ** 2)
 
 	fitness *= -1
@@ -156,7 +167,7 @@ def ZeroPathFitness(individual):
 			break
 		it += 1
 
-	if it == LENGHT_CHROM:
+	if it == len(individual):
 		fitness += np.sqrt(abs(currntX - finish[1]) ** 2 + abs(currntY - finish[0]) ** 2)
 
 	fitness *= -1
@@ -189,6 +200,7 @@ def selTournament(population, p_len):
 def cxOnePoint(child1, child2):
     s = random.randint(2, len(child1) - 3)
     child1[s:], child2[s:] = child2[s:], child1[s:]
+
 
 def cxTwoPoint(child1, child2):
 	s1 = random.randint(2, len(child1) - 3)
@@ -234,7 +246,7 @@ def show(ax, hof):
 
 def __main__():
 
-	hof = [LENGHT_CHROM] * HALL_OF_FAME_SIZE
+	hof = [0] * HALL_OF_FAME_SIZE
 
 	plt.ion()
 	fig, ax = plt.subplots()
@@ -258,6 +270,13 @@ def __main__():
 
 	while generationCounter < MAX_GENERATIONS:
 		generationCounter += 1
+
+		for i in range(1, len(len_steps)):
+			if generationCounter == int(generations_steps[i] * MAX_GENERATIONS):
+				for j in range(len(population)):
+					path = AdditionrandomPath(int(LENGHT_CHROM * len_steps[i]))
+					population[j].extend(path)
+
 		offspring = selTournament(population, len(population))
 		offspring = list(map(clone, offspring))
 
@@ -267,13 +286,11 @@ def __main__():
 
 		for mutant in offspring:
 			if random.random() < P_MUTATION:
-				MutPath(mutant, indpb = 1.0 / LENGHT_CHROM)
+				MutPath(mutant, indpb = 1.0 / len(population[0]))
 
 		freshFitnessValues = list(map(ZeroPathFitness, offspring))
 		for individual, fitnessValue in zip(offspring, freshFitnessValues):
 			individual.fitness.values = fitnessValue
-
-		#population.append(hof)
 
 		population[:] = offspring
 
@@ -304,3 +321,4 @@ def __main__():
 
 if __name__ == '__main__':
 	__main__()
+
