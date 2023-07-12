@@ -33,7 +33,7 @@ generations_steps = [0.1, 0.2, 0.4, 0.6]
 LENGHT_CHROM = int(2.5 * FIELD_SIZE)
 POPULATION_SIZE = 100 * FIELD_SIZE
 P_CROSSOVER = 0.9
-P_MUTATION = 0.5
+P_MUTATION = 0.2
 MAX_GENERATIONS = 3 * FIELD_SIZE + 25
 HALL_OF_FAME_SIZE = int(0.05 * LENGHT_CHROM)
 
@@ -266,6 +266,9 @@ def __main__():
 	maxFitnessValues = []
 	meanFitnessValues = []
 
+	normedMaxFitnessValues = []
+	normedMeanFitnessValues = []
+
 	fitnessValues = [individual.fitness.values[0] for individual in population]
 
 	while generationCounter < MAX_GENERATIONS:
@@ -286,7 +289,7 @@ def __main__():
 
 		for mutant in offspring:
 			if random.random() < P_MUTATION:
-				MutPath(mutant, indpb = 1.0 / len(population[0]))
+				MutPath(mutant, indpb = 10.0 / len(population[0]))
 
 		freshFitnessValues = list(map(ZeroPathFitness, offspring))
 		for individual, fitnessValue in zip(offspring, freshFitnessValues):
@@ -305,6 +308,10 @@ def __main__():
 		meanFitness = sum(fitnessValues) / len(population) * -1
 		maxFitnessValues.append(maxFitness)
 		meanFitnessValues.append(meanFitness)
+
+		normedMaxFitnessValues.append(maxFitness / len(population[0]))
+		normedMeanFitnessValues.append(meanFitness / len(population[0]))
+
 		print(f"Generation {generationCounter}: Max = {maxFitness}, Avg = {meanFitness}")
 
 		show(ax, hof)
@@ -316,6 +323,12 @@ def __main__():
 	plt.plot(meanFitnessValues, color = 'green')
 	plt.xlabel("Generation")
 	plt.ylabel("Max/avg fitness")
+	plt.show()
+
+	plt.plot(normedMaxFitnessValues, color = 'red')
+	plt.plot(normedMeanFitnessValues, color = 'green')
+	plt.xlabel("Generation")
+	plt.ylabel("Normed Max/avg fitness")
 	plt.show()
 
 
