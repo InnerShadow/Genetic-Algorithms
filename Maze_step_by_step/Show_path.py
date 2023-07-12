@@ -38,9 +38,3 @@ def show_path(ax, best, field, start, finish, color):
         if currntX == finish[1] + 0.5 and currntY == finish[0] + 0.5:
             break
 
-
-
-
-    
-
-    
