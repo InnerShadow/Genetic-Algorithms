@@ -226,7 +226,7 @@ def MazePathFitness(individual):
 		fitness += 1
 
 		if currntX == finish[1] and currntY == finish[0]:
-			fitness -= (FIELD_SIZE)
+			fitness -= int(FIELD_SIZE / 2)
 			find_finish = True
 			break
 		it += 1
