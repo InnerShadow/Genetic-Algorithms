@@ -16,8 +16,6 @@ colors = ['black', 'brown', 'purple', 'pink', 'cyan', 'blue', 'green', 'yellow',
 #	     fitness x  y ngen
 cutData = [0   , 0, 0, 0]
 
-random.seed(200)
-
 class FitnessMax():
     def __init__(self):
         self.values = [0]
