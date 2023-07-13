@@ -396,7 +396,7 @@ def __main__():
 			MAX_GENERATIONS += FIELD_SIZE
 			for i in range(len(population)):
 				population[i] = cutHalf(population[i])
-				
+
 		for j in range(len(population)):
 			path = AdditionrandomPath(int(0.05 * LENGHT_CHROM))
 			population[j].extend(path)
@@ -448,7 +448,7 @@ def __main__():
 
 		show(ax, hof)
 
-		print(cutData, find_finish)
+		#print(cutData, find_finish)
 
 	plt.ioff()
 	plt.show()
