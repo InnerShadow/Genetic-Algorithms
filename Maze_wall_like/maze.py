@@ -26,8 +26,7 @@ class Individual(list):
 
 FIELD_SIZE = 50
 
-len_steps = [0.1, 0.2, 0.3, 0.4]
-generations_steps = [0.1, 0.2, 0.4, 0.6]
+startChromo = FIELD_SIZE
 
 LENGHT_CHROM = int(2.5 * FIELD_SIZE)
 POPULATION_SIZE = 100 * FIELD_SIZE
@@ -57,7 +56,7 @@ field = GetMazeField(FIELD_SIZE, start, finish)
 
 def randomPath():
 	path = []
-	for n in range(int(LENGHT_CHROM * len_steps[0])):
+	for n in range(int(startChromo)):
 		path.extend([random.randint(1, 4)])
 
 	return Individual(path)
@@ -273,11 +272,9 @@ def __main__():
 	while generationCounter < MAX_GENERATIONS:
 		generationCounter += 1
 
-		for i in range(1, len(len_steps)):
-			if generationCounter == int(generations_steps[i] * MAX_GENERATIONS):
-				for j in range(len(population)):
-					path = AdditionrandomPath(int(LENGHT_CHROM * len_steps[i]))
-					population[j].extend(path)
+		for j in range(len(population)):
+			path = AdditionrandomPath(int(0.04 * LENGHT_CHROM))
+			population[j].extend(path)
 
 		offspring = selTournament(population, len(population))
 		offspring = list(map(clone, offspring))
