@@ -173,6 +173,64 @@ def ZeroPathFitness(individual):
 	return fitness, 
 
 
+def MazePathFitness(individual):
+	currntX = start[1]
+	currntY = start[0]
+
+	currentField = field.copy()
+
+	fitness = 0
+	it = 0
+
+	for i in range(len(individual)):
+		if individual[i] == 1:
+			currntY += 1
+			if currntY > FIELD_SIZE - 1 or field[currntX][currntY] == 1:
+				currntY -= 1
+				individual[i] = 0
+				#fitness += inf
+
+		if individual[i] == 2:
+			currntY -= 1
+			if currntY < 0 or field[currntX][currntY] == 1:
+				currntY += 1
+				individual[i] = 0
+				#fitness += inf
+
+		if individual[i] == 3:
+			currntX += 1
+			if currntX > FIELD_SIZE - 1 or field[currntX][currntY] == 1:
+				currntX -= 1
+				individual[i] = 0
+				#fitness += inf
+
+		if individual[i] == 4:
+			currntX -= 1
+			if currntX < 0 or field[currntX][currntY] == 1:
+				currntX += 1
+				individual[i] = 0
+				#fitness += inf
+
+		currentField[currntX][currntY] = 2
+
+		fitness += 1
+
+		if currntX == finish[1] and currntY == finish[0]:
+			break
+		it += 1
+
+	if it == len(individual):
+		fitness += np.sqrt(abs(currntX - finish[1]) ** 2 + abs(currntY - finish[0]) ** 2)
+
+	benefits = np.count_nonzero(currentField == 2)
+
+	fitness -= benefits
+
+	fitness *= -1
+
+	return fitness, 
+
+
 def clone(value):
     ind = Individual(value[:])
     ind.fitness.values[0] = value.fitness.values[0]
@@ -256,7 +314,7 @@ def __main__():
 	population = populationCreator(n = POPULATION_SIZE + HALL_OF_FAME_SIZE)
 	generationCounter = 0
 
-	fitnessValues = list(map(ZeroPathFitness, population))
+	fitnessValues = list(map(MazePathFitness, population))
 
 	for individual, fitnessValue in zip(population, fitnessValues):
 		individual.fitness.values = fitnessValue
@@ -287,7 +345,7 @@ def __main__():
 			if random.random() < P_MUTATION:
 				MutPath(mutant, indpb = 10.0 / len(population[0]))
 
-		freshFitnessValues = list(map(ZeroPathFitness, offspring))
+		freshFitnessValues = list(map(MazePathFitness, offspring))
 		for individual, fitnessValue in zip(offspring, freshFitnessValues):
 			individual.fitness.values = fitnessValue
 
