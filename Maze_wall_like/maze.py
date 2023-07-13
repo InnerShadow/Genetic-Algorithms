@@ -340,7 +340,7 @@ def GetCurrentXY(individual):
 
 
 def cutHalf(individual):
-	individual[:] = individual[:int(len(individual) * 0.35)]
+	individual[:] = individual[:int(len(individual) * 0.3)]
 	return individual
 
 
@@ -351,8 +351,10 @@ def show(ax, hof):
 
 	hofScail = len(hof) / len(colors)
 
+	lineScale = 5 / len(colors)
+
 	for i in range(len(colors)):
-		show_path(ax, hof[int((len(hof) - i * hofScail) * hofScail)], field, start, finish, colors[i])
+		show_path(ax, hof[int((len(hof) - i * hofScail) * hofScail)], field, start, finish, colors[i], 1.5 + (len(colors) - i) * lineScale)
 
 	plt.draw()
 	plt.gcf().canvas.flush_events() 

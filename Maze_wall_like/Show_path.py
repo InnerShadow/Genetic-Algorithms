@@ -19,7 +19,7 @@ def show_greed(ax, field, start, finish):
                 ax.add_patch(Rectangle((i, j), 1, 1, facecolor = 'black'))
 
 
-def show_path(ax, best, field, start, finish, color):
+def show_path(ax, best, field, start, finish, color, linewidth):
     ax.set_xlim(-2, len(field) + 3)
     ax.set_ylim(-2, len(field) + 3)
 
@@ -27,16 +27,16 @@ def show_path(ax, best, field, start, finish, color):
     currntY = start[0] + 0.5
     for i in best:
         if i == 1:
-            ax.add_line(Line2D((currntY, currntY + 1), (currntX, currntX), color = color))
+            ax.add_line(Line2D((currntY, currntY + 1), (currntX, currntX), color = color, linewidth = linewidth))
             currntY += 1
         if i == 2:
-            ax.add_line(Line2D((currntY, currntY - 1), (currntX, currntX), color = color))
+            ax.add_line(Line2D((currntY, currntY - 1), (currntX, currntX), color = color, linewidth = linewidth))
             currntY -= 1
         if i == 3:
-            ax.add_line(Line2D((currntY, currntY), (currntX, currntX + 1), color = color))
+            ax.add_line(Line2D((currntY, currntY), (currntX, currntX + 1), color = color, linewidth = linewidth))
             currntX += 1
         if i == 4:
-            ax.add_line(Line2D((currntY, currntY), (currntX, currntX - 1), color = color))
+            ax.add_line(Line2D((currntY, currntY), (currntX, currntX - 1), color = color, linewidth = linewidth))
             currntX -= 1
         if currntX == finish[1] + 0.5 and currntY == finish[0] + 0.5:
             break
