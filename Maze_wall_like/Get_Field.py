@@ -77,8 +77,17 @@ def GetMazeField(field_size, start, finish):
 	matrix[12][20] = 1
 	matrix[12][22] = 1
 	matrix[12][23] = 1
+	matrix[24][20] = 1
+	matrix[24][21] = 1
+	matrix[24][22] = 1
+	matrix[22][21] = 1
+
 
 	for i in range(12, 19):
+		matrix[i][19] = 1
+		matrix[i][23] = 1
+
+	for i in range(21, 25):
 		matrix[i][19] = 1
 		matrix[i][23] = 1
 	
@@ -87,6 +96,8 @@ def GetMazeField(field_size, start, finish):
 
 	matrix[19][20] = 0
 	matrix[19][22] = 0
+	matrix[21][20] = 0
+	matrix[21][22] = 0
 		
 
 	return matrix
