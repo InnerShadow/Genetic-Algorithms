@@ -450,6 +450,8 @@ def __main__():
 
 		#print(cutData, find_finish)
 
+	print(hof[0])
+
 	plt.ioff()
 	plt.show()
 
