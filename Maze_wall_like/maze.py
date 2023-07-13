@@ -226,7 +226,7 @@ def MazePathFitness(individual):
 		fitness += 1
 
 		if currntX == finish[1] and currntY == finish[0]:
-			fitness -= int(FIELD_SIZE / 2)
+			fitness -= (FIELD_SIZE)
 			find_finish = True
 			break
 		it += 1
@@ -397,10 +397,9 @@ def __main__():
 			for i in range(len(population)):
 				population[i] = cutHalf(population[i])
 
-		if not find_finish:
-			for j in range(len(population)):
-				path = AdditionrandomPath(int(0.05 * LENGHT_CHROM))
-				population[j].extend(path)
+		for j in range(len(population)):
+			path = AdditionrandomPath(int(0.05 * LENGHT_CHROM))
+			population[j].extend(path)
 
 		offspring = selTournament(population, len(population))
 		offspring = list(map(clone, offspring))
