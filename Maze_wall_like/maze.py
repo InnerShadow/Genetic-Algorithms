@@ -396,7 +396,7 @@ def __main__():
 			MAX_GENERATIONS += FIELD_SIZE
 			for i in range(len(population)):
 				population[i] = cutHalf(population[i])
-
+				
 		for j in range(len(population)):
 			path = AdditionrandomPath(int(0.05 * LENGHT_CHROM))
 			population[j].extend(path)
@@ -427,14 +427,14 @@ def __main__():
 
 		hof = Get_Hall_of_Fame(population, fitnessValues)
 
+		for i in range(HALL_OF_FAME_SIZE):
+			population[POPULATION_SIZE + i] = hof[i]
+
 		currntX, currntY = GetCurrentXY(hof[0])
 		if (abs(currntX - cutData[1] + currntY - cutData[2])) <= 2 and not find_finish:  
 			cutData[3] += 1
 		else:
 			cutData[3] = 0
-
-		for i in range(HALL_OF_FAME_SIZE):
-			population[POPULATION_SIZE + i] = hof[i]
 
 		maxFitness = max(fitnessValues) * -1
 		meanFitness = sum(fitnessValues) / len(population) * -1
@@ -448,7 +448,7 @@ def __main__():
 
 		show(ax, hof)
 
-		#print(cutData, find_finish)
+		print(cutData, find_finish)
 
 	plt.ioff()
 	plt.show()
