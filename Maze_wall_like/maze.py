@@ -216,6 +216,7 @@ def MazePathFitness(individual):
 		fitness += 1
 
 		if currntX == finish[1] and currntY == finish[0]:
+			fitness -= (FIELD_SIZE / 2)
 			break
 		it += 1
 
@@ -224,7 +225,7 @@ def MazePathFitness(individual):
 
 	benefits = np.count_nonzero(currentField == 2)
 
-	fitness -= benefits
+	fitness -= (benefits * 2)
 
 	fitness *= -1
 
