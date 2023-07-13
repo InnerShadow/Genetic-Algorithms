@@ -351,7 +351,7 @@ def show(ax, hof):
 
 	hofScail = len(hof) / len(colors)
 
-	lineScale = 5 / len(colors)
+	lineScale = 10 / len(colors)
 
 	for i in range(len(colors)):
 		show_path(ax, hof[int((len(hof) - i * hofScail) * hofScail)], field, start, finish, colors[i], 1.5 + (len(colors) - i) * lineScale)
