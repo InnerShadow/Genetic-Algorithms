@@ -8,10 +8,15 @@ from deap import base, algorithms
 from deap import creator
 from deap import tools
 
-from Show_path import show_path	
+from Show_path import show_path, show_greed	
 from Get_Field import Get_clear_field, Get_one_onbtacle_field, Get_random_field, GetMazeField
 
-random.seed(69)
+colors = ['black', 'brown', 'purple', 'pink', 'cyan', 'blue', 'green', 'yellow', 'orange', 'red']
+
+#	     fitness x  y ngen
+cutData = [0   , 0, 0, 0]
+
+random.seed(200)
 
 class FitnessMax():
     def __init__(self):
@@ -28,12 +33,14 @@ FIELD_SIZE = 50
 
 startChromo = FIELD_SIZE
 
+MAX_GENERATIONS = 3 * FIELD_SIZE + 25
 LENGHT_CHROM = int(2.5 * FIELD_SIZE)
 POPULATION_SIZE = 100 * FIELD_SIZE
 P_CROSSOVER = 0.9
-P_MUTATION = 0.2
-MAX_GENERATIONS = 3 * FIELD_SIZE + 25
+P_MUTATION = 0.3
 HALL_OF_FAME_SIZE = int(0.05 * LENGHT_CHROM)
+
+find_finish = False
 
 start = (5, 20) #(random.randint(1, FIELD_SIZE - 2), random.randint(1, FIELD_SIZE - 2))
 finish = (45, 20) #(random.randint(1, FIELD_SIZE - 2), random.randint(1, FIELD_SIZE - 2))
@@ -174,6 +181,9 @@ def ZeroPathFitness(individual):
 
 
 def MazePathFitness(individual):
+
+	global find_finish
+
 	currntX = start[1]
 	currntY = start[0]
 
@@ -216,7 +226,8 @@ def MazePathFitness(individual):
 		fitness += 1
 
 		if currntX == finish[1] and currntY == finish[0]:
-			fitness -= (FIELD_SIZE / 2)
+			fitness -= (FIELD_SIZE)
+			find_finish = True
 			break
 		it += 1
 
@@ -290,18 +301,68 @@ def Get_Hall_of_Fame(population, fitnessValues):
 	return hof
 
 
+def GetCurrentXY(individual):
+	currntX = start[1]
+	currntY = start[0]
+
+	it = 0
+
+	for i in range(len(individual)):
+		if individual[i] == 1:
+			currntY += 1
+			if currntY > FIELD_SIZE - 1 or field[currntX][currntY] == 1:
+				currntY -= 1
+				individual[i] = 0
+
+		if individual[i] == 2:
+			currntY -= 1
+			if currntY < 0 or field[currntX][currntY] == 1:
+				currntY += 1
+				individual[i] = 0
+
+		if individual[i] == 3:
+			currntX += 1
+			if currntX > FIELD_SIZE - 1 or field[currntX][currntY] == 1:
+				currntX -= 1
+				individual[i] = 0
+
+		if individual[i] == 4:
+			currntX -= 1
+			if currntX < 0 or field[currntX][currntY] == 1:
+				currntX += 1
+				individual[i] = 0
+
+		if currntX == finish[1] and currntY == finish[0]:
+			break
+		it += 1
+
+	return currntX, currntY,
+
+
+def cutHalf(individual):
+	individual[:] = individual[:int(len(individual) * 0.35)]
+	return individual
+
+
 def show(ax, hof):
 	#time.sleep(0.5)
 	ax.clear()
-	#show_path(ax, hof.items[2], field, start, finish, 'blue')
-	show_path(ax, hof[len(hof) - 1], field, start, finish, 'green')
-	show_path(ax, hof[0], field, start, finish, 'red')
+	show_greed(ax, field, start, finish)
+
+	hofScail = len(hof) / len(colors)
+
+	for i in range(len(colors)):
+		show_path(ax, hof[int((len(hof) - i * hofScail) * hofScail)], field, start, finish, colors[i])
 
 	plt.draw()
 	plt.gcf().canvas.flush_events() 
 
 
 def __main__():
+
+	global find_finish
+
+	global MAX_GENERATIONS
 
 	hof = [0] * HALL_OF_FAME_SIZE
 
@@ -331,9 +392,15 @@ def __main__():
 	while generationCounter < MAX_GENERATIONS:
 		generationCounter += 1
 
-		for j in range(len(population)):
-			path = AdditionrandomPath(int(0.04 * LENGHT_CHROM))
-			population[j].extend(path)
+		if cutData[3] == 7:
+			MAX_GENERATIONS += FIELD_SIZE
+			for i in range(len(population)):
+				population[i] = cutHalf(population[i])
+
+		if not find_finish:
+			for j in range(len(population)):
+				path = AdditionrandomPath(int(0.05 * LENGHT_CHROM))
+				population[j].extend(path)
 
 		offspring = selTournament(population, len(population))
 		offspring = list(map(clone, offspring))
@@ -354,7 +421,18 @@ def __main__():
 
 		fitnessValues = [ind.fitness.values[0] for ind in population]
 
+		if generationCounter != 1:
+			currntX, currntY = GetCurrentXY(hof[0])
+			cutData[1] = currntX
+			cutData[2] = currntY
+
 		hof = Get_Hall_of_Fame(population, fitnessValues)
+
+		currntX, currntY = GetCurrentXY(hof[0])
+		if (abs(currntX - cutData[1] + currntY - cutData[2])) <= 2 and not find_finish:  
+			cutData[3] += 1
+		else:
+			cutData[3] = 0
 
 		for i in range(HALL_OF_FAME_SIZE):
 			population[POPULATION_SIZE + i] = hof[i]
@@ -370,6 +448,8 @@ def __main__():
 		print(f"Generation {generationCounter}: Max = {maxFitness}, Avg = {meanFitness}")
 
 		show(ax, hof)
+
+		#print(cutData, find_finish)
 
 	plt.ioff()
 	plt.show()

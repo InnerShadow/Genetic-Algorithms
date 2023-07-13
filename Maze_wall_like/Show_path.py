@@ -2,8 +2,7 @@ from matplotlib.lines import Line2D
 from matplotlib.patches import Rectangle
 import numpy as np
 
-def show_path(ax, best, field, start, finish, color):
-
+def show_greed(ax, field, start, finish):
     ax.set_xlim(-2, len(field) + 3)
     ax.set_ylim(-2, len(field) + 3)
 
@@ -19,6 +18,10 @@ def show_path(ax, best, field, start, finish, color):
             if field[j][i] == 1:
                 ax.add_patch(Rectangle((i, j), 1, 1, facecolor = 'black'))
 
+
+def show_path(ax, best, field, start, finish, color):
+    ax.set_xlim(-2, len(field) + 3)
+    ax.set_ylim(-2, len(field) + 3)
 
     currntX = start[1] + 0.5
     currntY = start[0] + 0.5
