@@ -38,7 +38,7 @@ LENGHT_CHROM = int(2.5 * FIELD_SIZE)
 POPULATION_SIZE = 100 * FIELD_SIZE
 P_CROSSOVER = 0.9
 P_MUTATION = 0.3
-HALL_OF_FAME_SIZE = int(0.05 * LENGHT_CHROM)
+HALL_OF_FAME_SIZE = int(0.08 * LENGHT_CHROM)
 
 find_finish = False
 
@@ -354,7 +354,7 @@ def show(ax, hof):
 	lineScale = 10 / len(colors)
 
 	for i in range(len(colors)):
-		show_path(ax, hof[int((len(hof) - i * hofScail) * hofScail)], field, start, finish, colors[i], 1.5 + (len(colors) - i) * lineScale)
+		show_path(ax, hof[int(len(hof) - i * hofScail) - 1], field, start, finish, colors[i], 1.5 + (len(colors) - i) * lineScale)
 
 	plt.draw()
 	plt.gcf().canvas.flush_events() 
