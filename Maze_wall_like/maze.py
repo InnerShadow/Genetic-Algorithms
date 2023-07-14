@@ -451,7 +451,7 @@ def __main__():
 
 		show(ax, hof)
 
-		print(cutData, find_finish)
+		#print(cutData, find_finish)
 
 	print(hof[0])
 
