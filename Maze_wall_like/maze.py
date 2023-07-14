@@ -13,6 +13,8 @@ from Get_Field import Get_clear_field, Get_one_onbtacle_field, Get_random_field,
 
 colors = ['black', 'brown', 'purple', 'pink', 'cyan', 'blue', 'green', 'yellow', 'orange', 'red']
 
+random.seed(8014)
+
 #	     fitness x  y ngen
 cutData = [0   , 0, 0, 0]
 
@@ -234,7 +236,7 @@ def MazePathFitness(individual):
 
 	benefits = np.count_nonzero(currentField == 2)
 
-	fitness -= (benefits * 2)
+	fitness -= int(benefits * 2.5)
 
 	fitness *= -1
 
@@ -289,7 +291,7 @@ def Get_Hall_of_Fame(population, fitnessValues):
 
 	valus = fitnessValues.copy()
 
-	hof = [LENGHT_CHROM] * HALL_OF_FAME_SIZE
+	hof = [0] * HALL_OF_FAME_SIZE
 
 	for i in range(HALL_OF_FAME_SIZE):
 		best_index = valus.index(max(valus))
@@ -338,7 +340,7 @@ def GetCurrentXY(individual):
 
 
 def cutHalf(individual):
-	individual[:] = individual[:int(len(individual) * 0.3)]
+	individual[:] = individual[:int(len(individual) * 0.25)]
 	return individual
 
 
@@ -392,8 +394,8 @@ def __main__():
 	while generationCounter < MAX_GENERATIONS:
 		generationCounter += 1
 
-		if cutData[3] == 7:
-			MAX_GENERATIONS += FIELD_SIZE
+		if cutData[3] == 8:
+			MAX_GENERATIONS += int(FIELD_SIZE * 1.5)
 			for i in range(len(population)):
 				population[i] = cutHalf(population[i])
 
@@ -403,6 +405,8 @@ def __main__():
 
 		offspring = selTournament(population, len(population))
 		offspring = list(map(clone, offspring))
+
+		offspring = offspring[:-HALL_OF_FAME_SIZE]
 
 		for child1, child2 in zip(offspring[::2], offspring[1::2]):
 			if random.random() < P_CROSSOVER:
@@ -416,22 +420,21 @@ def __main__():
 		for individual, fitnessValue in zip(offspring, freshFitnessValues):
 			individual.fitness.values = fitnessValue
 
-		population[:] = offspring
-
-		fitnessValues = [ind.fitness.values[0] for ind in population]
+		fitnessValues = [ind.fitness.values[0] for ind in offspring]
 
 		if generationCounter != 1:
 			currntX, currntY = GetCurrentXY(hof[0])
 			cutData[1] = currntX
 			cutData[2] = currntY
 
-		hof = Get_Hall_of_Fame(population, fitnessValues)
+		hof = Get_Hall_of_Fame(offspring, fitnessValues)
 
-		for i in range(HALL_OF_FAME_SIZE):
-			population[POPULATION_SIZE + i] = hof[i]
+		offspring.extend(hof)
+
+		population[:] = offspring
 
 		currntX, currntY = GetCurrentXY(hof[0])
-		if (abs(currntX - cutData[1] + currntY - cutData[2])) <= 2 and not find_finish:  
+		if (abs(currntX - cutData[1]) + abs(currntY - cutData[2])) <= 3 and not find_finish:  
 			cutData[3] += 1
 		else:
 			cutData[3] = 0
@@ -448,7 +451,7 @@ def __main__():
 
 		show(ax, hof)
 
-		#print(cutData, find_finish)
+		print(cutData, find_finish)
 
 	print(hof[0])
 
