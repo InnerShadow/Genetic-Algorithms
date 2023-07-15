@@ -45,7 +45,7 @@ def __main__():
     stats = tools.Statistics(lambda ind : ind.fitness.values)
     stats.register("max", np.max)
     stats.register("avg", np.mean)
-    stats.register("values", np.array)
+    $stats.register("values", np.array)
 
     population, logbook = algorithms.eaSimple(population, toolbox, cxpb = P_CROSSOVER, mutpb = P_MUTATION, 
         ngen = MAX_GENERATIONS, stats = stats, verbose = True)

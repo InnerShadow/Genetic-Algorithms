@@ -13,7 +13,7 @@ from Get_Field import Get_clear_field, Get_one_onbtacle_field, Get_random_field,
 
 colors = ['black', 'brown', 'purple', 'pink', 'cyan', 'blue', 'green', 'yellow', 'orange', 'red']
 
-random.seed(8014)
+#random.seed(8014)
 
 #	     fitness x  y ngen
 cutData = [0   , 0, 0, 0]

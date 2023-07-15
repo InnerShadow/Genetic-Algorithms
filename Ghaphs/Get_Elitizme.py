@@ -33,7 +33,7 @@ def eaSimpleElitizme(population, toolbox, cxpb, mutpb, ngen, stats = None,
         fitnesses = toolbox.map(toolbox.evaluate, invalid_ind)
         for ind, fit in zip(invalid_ind, fitnesses):
             ind.fitness.values = fit
-
+            
         offspring.extend(halloffame.items)
 
         if halloffame is not None:

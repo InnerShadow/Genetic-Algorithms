@@ -36,8 +36,8 @@ P_MUTATION = 0.2
 MAX_GENERATIONS = 3 * FIELD_SIZE + 25
 HALL_OF_FAME_SIZE = int(0.05 * LENGHT_CHROM)
 
-start = (5, 20) #(random.randint(1, FIELD_SIZE - 2), random.randint(1, FIELD_SIZE - 2))
-finish = (45, 20) #(random.randint(1, FIELD_SIZE - 2), random.randint(1, FIELD_SIZE - 2))
+start = (random.randint(1, FIELD_SIZE - 2), random.randint(1, FIELD_SIZE - 2))
+finish = (random.randint(1, FIELD_SIZE - 2), random.randint(1, FIELD_SIZE - 2))
 
 inf = int(0.4 * FIELD_SIZE)
 hall_of_fame_inf = -10000 * FIELD_SIZE
@@ -46,7 +46,7 @@ hall_of_fame_inf = -10000 * FIELD_SIZE
 	# 0 - avaliable cell
 	# 1 - barrier
 
-field = GetMazeField(FIELD_SIZE, start, finish)
+field = Get_random_field(FIELD_SIZE, start, finish)
 
 #path:
 	# 0 - stay
