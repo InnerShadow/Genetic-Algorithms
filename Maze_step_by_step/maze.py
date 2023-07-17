@@ -11,8 +11,6 @@ from deap import tools
 from Show_path import show_path	
 from Get_Field import Get_clear_field, Get_one_onbtacle_field, Get_random_field, GetMazeField
 
-#random.seed(69)
-
 class FitnessMax():
     def __init__(self):
         self.values = [0]
